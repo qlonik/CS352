@@ -147,3 +147,70 @@ struct matrix multMatrix(struct matrix a, struct matrix b) {
    return result;
 };
 
+/*
+int main(int argc, char *argv[]) {
+   int i, j;
+   struct matrix m;
+   char * m_en_S;
+
+   char m2x2_S[] = "1,2;3,4";
+   char m3x3_S[] = "1,2,3;4,5,6;7,8,9";
+   char m3x3_2_S[] = "9,8,7;6,5,4;3,2,1";
+   char m4x4_S[] = "1,2,3,4;5,6,7,8;9,10,11,12;13,14,15,16";
+
+   struct matrix m2x2 = parseMatrix(m2x2_S);
+   struct matrix m3x3 = parseMatrix(m3x3_S);
+   struct matrix m3x3_2 = parseMatrix(m3x3_2_S);
+   struct matrix m4x4 = parseMatrix(m4x4_S);
+
+   struct matrix m3x3_M = multMatrix(m3x3, m3x3_2);
+
+   char * m2x2_en_S = encodeMatrix(m2x2);
+   char * m3x3_en_S = encodeMatrix(m3x3);
+   char * m3x3_2_en_S = encodeMatrix(m3x3_2);
+   char * m3x3_M_en_S = encodeMatrix(m3x3_M);
+   char * m4x4_en_S = encodeMatrix(m4x4);
+
+   m = m2x2;
+   m_en_S = m2x2_en_S;
+
+   printf("Your encoded matrix:\n");
+   printf("%s\n", m_en_S);
+
+   printf("Your matrix:\n");
+   for (i = 0; i < *m.r; i++) {
+      for (j = 0; j < *m.c; j++) {
+         printf("%3d ", m.m[i][j]);
+      }
+      printf("\n");
+   }
+
+
+   m = m3x3;
+   printf("First matrix:\n");
+   for (i = 0; i < *m.r; i++) {
+      for (j = 0; j < *m.c; j++) {
+         printf("%3d ", m.m[i][j]);
+      }
+      printf("\n");
+   }
+   m = m3x3_2;
+   printf("Second matrix:\n");
+   for (i = 0; i < *m.r; i++) {
+      for (j = 0; j < *m.c; j++) {
+         printf("%3d ", m.m[i][j]);
+      }
+      printf("\n");
+   }
+   m = m3x3_M;
+   printf("Your multiplied matrix:\n");
+   for (i = 0; i < *m.r; i++) {
+      for (j = 0; j < *m.c; j++) {
+         printf("%3d ", m.m[i][j]);
+      }
+      printf("\n");
+   }
+
+   return 0;
+}
+*/
