@@ -2,32 +2,28 @@
 # Based on the sample file from this website
 # https://www3.ntu.edu.sg/home/ehchua/programming/cpp/gcc_make.html
 
-# Output file
-LINK_TARGET = matrix
-
 SRC_DIR = src
-
-# Objects to build
 OBJ_DIR = obj
-OBJ_NAMES = \
-	    matrix.o \
-	    matrixOps.o
-OBJS = $(addprefix $(OBJ_DIR)/,$(OBJ_NAMES))
 
-REBUILDABLES = $(OBJS) $(LINK_TARGET)
+# output bin and required files
+M = matrix
+M_OBJ_N = \
+	  matrix.o \
+	  matrixOps.o
+M_OBJS = $(addprefix $(OBJ_DIR)/,$(M_OBJ_N))
 
 CC = gcc
 CFLAGS = -g -I$(SRC_DIR)
 
-all : $(LINK_TARGET)
+all : ${M}
 	@echo All done
 
 clean :
-	@rm -f $(REBUILDABLES)
+	@rm -f ${M}
 	@rm -rf $(OBJ_DIR)
 	@echo Clean done
 
-$(LINK_TARGET) : $(OBJS)
+${M} : $(M_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(OBJ_DIR):
