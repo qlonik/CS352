@@ -145,8 +145,18 @@ int main() {
             m2_S = malloc(strlen(buf));
             m2_S = buf;
 
-            char * s = "END CYCLE";
-            printf("%s\n", s);
+            struct matrix m1 = parseMatrix(m1_S),
+                          m2 = parseMatrix(m2_S),
+                          m = multMatrix(m1, m2);
+
+            char * m_S = encodeMatrix(m);
+
+            kill(child_two, SIGCONT);
+            rwPipe = open(pipeName, O_WRONLY);
+            writePipe(m_S, rwPipe);
+            close(rwPipe);
+
+            waitpid(child_two, NULL, WUNTRACED);
          }
       }
    }
