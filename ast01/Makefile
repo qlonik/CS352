@@ -6,10 +6,10 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 # output bin and required files
-M = matrix
+M = matrix_pipe
 M_TMP_FILES = mPipe
 M_OBJ_N = \
-	  matrix.o \
+	  matrix_pipe.o \
 	  matrixOps.o
 M_OBJS = $(addprefix $(OBJ_DIR)/,$(M_OBJ_N))
 
@@ -33,5 +33,5 @@ $(OBJ_DIR):
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(OBJ_DIR)/matrix.o : $(SRC_DIR)/matrixOps.h
+$(OBJ_DIR)/matrix_pipe.o : $(SRC_DIR)/matrixOps.h
 
