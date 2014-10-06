@@ -59,6 +59,8 @@ int main() {
    char * buf;
    buf = (char *) malloc(sizeof(char) * MAX_BUF_LEN);
 
+   mkfifo(pipeName, S_IRWXU | S_IRWXO);
+
    child_one = fork();
    if ( child_one < 0 ) {
       perror("error creating first child");
