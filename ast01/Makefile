@@ -7,6 +7,7 @@ OBJ_DIR = obj
 
 # output bin and required files
 M = matrix
+M_TMP_FILES = mPipe
 M_OBJ_N = \
 	  matrix.o \
 	  matrixOps.o
@@ -19,7 +20,7 @@ all : ${M}
 	@echo All done
 
 clean :
-	@rm -f ${M}
+	@rm -f ${M} ${M_TMP_FILES}
 	@rm -rf $(OBJ_DIR)
 	@echo Clean done
 
