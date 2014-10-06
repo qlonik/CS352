@@ -14,6 +14,7 @@
 #include "matrixOps.h"
 
 #define MAX_BUF_LEN 1024
+#define MAX_DELAY 10
 
 void writePipe(char * s, int pipe) {
    write(pipe, s, strlen(s));
@@ -45,6 +46,10 @@ int readNumber(char msg[]) {
    scanf("%d", digit);
    return * digit;
 };
+
+void exitMatrix() {
+   exit(EXIT_SUCCESS);
+}
 
 int main() {
    int i, j;
@@ -125,10 +130,13 @@ int main() {
          kill(child_one, SIGSTOP);
          kill(child_two, SIGSTOP);
 
+         signal(SIGALRM, exitMatrix);
+
          while (1) {
             int rwPipe;
             char * m1_S = NULL, * m2_S = NULL;
 
+            alarm(MAX_DELAY);
             kill(child_one, SIGCONT);
             rwPipe = open(pipeName, O_RDONLY);
             readPipe(buf, rwPipe);
@@ -137,6 +145,7 @@ int main() {
             m1_S = malloc(strlen(buf));
             m1_S = buf;
 
+            alarm(MAX_DELAY);
             kill(child_one, SIGCONT);
             rwPipe = open(pipeName, O_RDONLY);
             readPipe(buf, rwPipe);
