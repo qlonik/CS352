@@ -22,7 +22,7 @@ void writePipe(char * s, int pipe) {
 int readPipe(char * s, int pipe) {
    int l = 0, i;
 
-   while ( (i = read(pipe, s,1)) > 0 ) {
+   while ( (i = read(pipe, s, 1)) > 0 ) {
       s++;
       l++;
    }
@@ -65,7 +65,7 @@ int main() {
    } else if ( child_one == 0 ) {
       // child one code
       while (1) {/*{{{*/
-         printMessage("Enter matrix:\n");
+         printMessage("Enter matrix\n");
          int rows = readNumber("Enter number of rows in matrix: "),
              cols = readNumber("Enter number of cols in matrix: ");
 
@@ -112,7 +112,7 @@ int main() {
             printMessage("Your matrix:\n");
             for (i = 0; i < *m.r; i++) {
                for (j = 0; j < *m.c; j++) {
-                  printf("%d ", m.m[i][j]);
+                  printf("%4d ", m.m[i][j]);
                }
                printf("\n");
             }
