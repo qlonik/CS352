@@ -7,16 +7,13 @@
 #include <unistd.h>
 
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "matrixOps.h"
 
 #define MAX_BUF_LEN 1024
-
-int running = 1;
-
-void changeRunning() {
-   running = 0;
-}
 
 void writePipe(char * s, int pipe) {
    write(pipe, s, strlen(s));
@@ -95,7 +92,6 @@ int main() {
          writePipe(encodedMatrix, woPipe);
          close(woPipe);
 
-         kill(getppid(), SIGUSR1);
          raise(SIGSTOP);
       }/*}}}*/
    } else {
@@ -121,7 +117,6 @@ int main() {
                printf("\n");
             }
 
-            kill(getppid(), SIGUSR1);
             raise(SIGSTOP);
          }/*}}}*/
       } else {
@@ -132,35 +127,26 @@ int main() {
 
          while (1) {
             int rwPipe;
-            /* rwPipe = open(pipeName, O_RDWR); */
-            /* close(rwPipe); */
             char * m1_S = NULL, * m2_S = NULL;
 
-            signal(SIGUSR1, changeRunning);
-
-            running = 1;
             kill(child_one, SIGCONT);
-            while (running);
-
-            rwPipe = open(pipeName, O_RDWR);
-            readPipe(m1_S, rwPipe);
+            rwPipe = open(pipeName, O_RDONLY);
+            readPipe(buf, rwPipe);
             close(rwPipe);
 
-            printf("%s\n", m1_S);
+            m1_S = malloc(strlen(buf));
+            m1_S = buf;
 
-            running = 1;
             kill(child_one, SIGCONT);
-            while (running);
-
-            rwPipe = open(pipeName, O_RDWR);
-            readPipe(m2_S, rwPipe);
+            rwPipe = open(pipeName, O_RDONLY);
+            readPipe(buf, rwPipe);
             close(rwPipe);
 
-            printf("%s\n", m1_S);
+            m2_S = malloc(strlen(buf));
+            m2_S = buf;
 
-            char * s = "MESSAGE";
+            char * s = "END CYCLE";
             printf("%s\n", s);
-
          }
       }
    }
