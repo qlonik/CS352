@@ -5,7 +5,7 @@
 
 #include "matrixOps.h"
 
-struct matrix parseMatrix(char str[]) {/*{{{*/
+struct matrix parseMatrix(char * str) {/*{{{*/
    char * copy = malloc(strlen(str) + 1);
    strcpy(copy, str);
 
@@ -65,7 +65,7 @@ struct matrix parseMatrix(char str[]) {/*{{{*/
       } else {
          result.m[i][j] = strtol(buf, NULL, 10);
 
-         buf[0] = 0;
+         buf[0] = '\0';
 
          if (token == SEMICOLON) {
             i++;
@@ -106,7 +106,7 @@ char * encodeMatrix(struct matrix matrix) {/*{{{*/
          result[l + k] = COMMA;
          result[l + k + 1] = '\0';
       }
-      result[strlen(result) - 1] = ';';
+      result[strlen(result) - 1] = SEMICOLON;
    }
    result[strlen(result) - 1] = '\0';
 

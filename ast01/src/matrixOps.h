@@ -8,7 +8,7 @@ struct matrix {
    int ** m;
 };
 
-struct matrix parseMatrix(char []);
+struct matrix parseMatrix(char *);
 char * encodeMatrix(struct matrix);
 
 
