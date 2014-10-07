@@ -116,7 +116,7 @@ char * encodeMatrix(struct matrix matrix) {/*{{{*/
 };/*}}}*/
 
 
-struct matrix multMatrix(struct matrix a, struct matrix b) {
+struct matrix multMatrix(struct matrix a, struct matrix b) {/*{{{*/
    if (*a.c != *b.r) {
       //error
    }
@@ -145,7 +145,7 @@ struct matrix multMatrix(struct matrix a, struct matrix b) {
    }
 
    return result;
-};
+};/*}}}*/
 
 /*
 int main(int argc, char *argv[]) {
