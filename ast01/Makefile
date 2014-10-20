@@ -32,7 +32,7 @@ ${M} : $(M_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # Create obj_dir folder
-$(OBJ_DIR):
+$(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)
 
 # Compile all c code to objects
