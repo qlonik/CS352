@@ -21,11 +21,17 @@ V_OBJ_N = \
 	  vectorOps.o
 V_OBJS = $(addprefix $(OBJ_DIR)/,$(V_OBJ_N))
 
+# third bin
+F = forks
+F_OBJ_N = \
+	  forks.o
+F_OBJS = $(addprefix $(OBJ_DIR)/,$(F_OBJ_N))
+
 CC = gcc
 CFLAGS = -g -I$(SRC_DIR)
 
 # Create all tasks including matrix
-all : $(M) $(V)
+all : $(M) $(V) $(F)
 	@echo All done
 
 # Clean all
@@ -34,6 +40,8 @@ clean :
 	@rm -f $(M) $(M_TMP_FILES)
 	@echo "Cleaning $(V)"
 	@rm -f $(V) $(V_TMP_FILES)
+	@echo "Cleaning $(F)"
+	@rm -f $(F)
 	@rm -rf $(OBJ_DIR)
 	@echo Clean done
 
@@ -43,6 +51,10 @@ $(M) : $(M_OBJS)
 
 # Create vector
 $(V) : $(V_OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# Create forks example
+$(F) : $(F_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # Create obj_dir folder
