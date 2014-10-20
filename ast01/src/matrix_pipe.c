@@ -16,10 +16,14 @@
 #define MAX_BUF_LEN 1024
 #define MAX_DELAY 10
 
+//write to the pipe
+//taken from provided programs
 void writePipe(char * s, int pipe) {
    write(pipe, s, strlen(s));
 };
 
+//read from the pipe
+//taken from provided programs
 int readPipe(char * s, int pipe) {
    int l = 0, i;
 
@@ -32,12 +36,14 @@ int readPipe(char * s, int pipe) {
    return l;
 }
 
+//print message to console unless it is NULL
 void printMessage(char msg[]) {
    if (msg != NULL) {
       printf("%s", msg);
    }
 };
 
+//print message to console and read number
 int readNumber(char msg[]) {
    printMessage(msg);
 
@@ -47,6 +53,7 @@ int readNumber(char msg[]) {
    return * digit;
 };
 
+//exit program with success status
 void exitMatrix() {
    exit(EXIT_SUCCESS);
 }
@@ -70,6 +77,7 @@ int main() {
    } else if ( child_one == 0 ) {
       // child one code
       while (1) {/*{{{*/
+         //child one reads matrix from stdin and outputs it to pipe
          printMessage("Enter matrix\n");
          int rows = readNumber("Enter number of rows in matrix: "),
              cols = readNumber("Enter number of cols in matrix: ");
@@ -92,11 +100,14 @@ int main() {
             }
          }
 
+         //encode matrix
          char * encodedMatrix = encodeMatrix(m);
+         //open pipe and write data
          int woPipe = open(pipeName, O_WRONLY);
          writePipe(encodedMatrix, woPipe);
          close(woPipe);
 
+         //stop itself
          raise(SIGSTOP);
       }/*}}}*/
    } else {
@@ -108,12 +119,16 @@ int main() {
       } else if (child_two == 0) {
          // child two code
          while (1) {/*{{{*/
+            //child two reads matrix from pipe and prints it to stdout
+            //open pipe and wait for data
             int roPipe = open(pipeName, O_RDONLY);
             bufLen = readPipe(buf, roPipe);
             close(roPipe);
 
+            //parse matrix
             struct matrix m = parseMatrix(buf);
 
+            //print matrix to stdout
             printMessage("Your matrix:\n");
             for (i = 0; i < *m.r; i++) {
                for (j = 0; j < *m.c; j++) {
@@ -122,49 +137,65 @@ int main() {
                printf("\n");
             }
 
+            //stop itself
             raise(SIGSTOP);
          }/*}}}*/
       } else {
          // parent code
 
+         //initially stop children
          kill(child_one, SIGSTOP);
          kill(child_two, SIGSTOP);
 
+         //respond to alarm by exiting program
          signal(SIGALRM, exitMatrix);
 
          while (1) {
             int rwPipe;
             char * m1_S = NULL, * m2_S = NULL;
 
+            //start alarm
             alarm(MAX_DELAY);
+            //continue first child
             kill(child_one, SIGCONT);
+            //open pipe and wait for data
             rwPipe = open(pipeName, O_RDONLY);
             readPipe(buf, rwPipe);
             close(rwPipe);
 
+            //copy read data from buf
             m1_S = malloc(strlen(buf));
             m1_S = buf;
 
+            //restart alarm
             alarm(MAX_DELAY);
+            //continue first child again
             kill(child_one, SIGCONT);
+            //open pipe and wait for data
             rwPipe = open(pipeName, O_RDONLY);
             readPipe(buf, rwPipe);
             close(rwPipe);
 
+            //copy read data from buf
             m2_S = malloc(strlen(buf));
             m2_S = buf;
 
+            //parse inputted matrixes and multiply them
             struct matrix m1 = parseMatrix(m1_S),
                           m2 = parseMatrix(m2_S),
                           m = multMatrix(m1, m2);
 
+            //encode multiplied matrix
             char * m_S = encodeMatrix(m);
 
+            //continue second child
             kill(child_two, SIGCONT);
+            //open pipe and write data into it
             rwPipe = open(pipeName, O_WRONLY);
             writePipe(m_S, rwPipe);
             close(rwPipe);
 
+            //wait until second child finishes before starting new iteration
             waitpid(child_two, NULL, WUNTRACED);
          }
       }

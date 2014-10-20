@@ -5,6 +5,9 @@
 
 #include "matrixOps.h"
 
+/*
+ * get string and output matrix representation of string
+ */
 struct matrix parseMatrix(char * str) {/*{{{*/
    char * copy = malloc(strlen(str) + 1);
    strcpy(copy, str);
@@ -38,6 +41,7 @@ struct matrix parseMatrix(char * str) {/*{{{*/
    /*    return 1; */
    /* } */
 
+   //create and assign matrix struct
    struct matrix result = {
       .r = (int *)malloc( sizeof(int) ),
       .c = (int *)malloc( sizeof(int) ),
@@ -55,18 +59,27 @@ struct matrix parseMatrix(char * str) {/*{{{*/
 
    i = 0;
    j = 0;
+   //start parsing passed string
    for (n = 0; n < strlen(copy); n++) {
+      //get one character from string
       token = *(copy + n);
 
       if (token != SEMICOLON && token != COMMA) {
+         //if token is not semicolon or comma, we save it into buffer
+         //because we are currently reading the number
          l = strlen(buf);
          buf[l] = token;
          buf[l + 1] = '\0';
       } else {
+         //if token is semicolon or comma, we convert number that we got to
+         //int and save it to corresponding slot of matrix
          result.m[i][j] = strtol(buf, NULL, 10);
 
+         //empty the buffer
          buf[0] = '\0';
 
+         //update position for the next number based on given semicolon or
+         //comma
          if (token == SEMICOLON) {
             i++;
             j = 0;
@@ -76,46 +89,65 @@ struct matrix parseMatrix(char * str) {/*{{{*/
          }
       }
    }
+   //save the last number, because it will not have neither semicolon nor comma
+   //after it
    result.m[i][j] = strtol(buf, NULL, 10);
 
+   //free memory
    free(buf);
    free(copy);
 
    return result;
 };/*}}}*/
+/*
+ * get matrix and output string representation of the matrix
+ */
 char * encodeMatrix(struct matrix matrix) {/*{{{*/
    int i, j, k, l;
+   //get values from matrix to convert to string
    int * r = matrix.r, * c = matrix.c;
    int ** m = matrix.m;
 
+   //total amount of elements in matrix
    int els = *r * *c;
+   //magically count necessary string length
+   //(this number is exceeding what is actually required to be)
    int alloc_size = (MAX_STR_OF_INT_LEN * els + els - 1) * sizeof(char);
 
+   //result string and temporary string buffer for a number
    char * result, * buf;
    result = (char *) malloc( alloc_size );
    buf = (char *) malloc( MAX_STR_OF_INT_LEN * sizeof(char) );
 
    for (i = 0; i < * r; i++) {
       for (j = 0; j < * c; j++) {
+         //convert int to string
          sprintf(buf, "%d", m[i][j]);
 
+         //copy buf into result string
          l = strlen(result);
          for (k = 0; k < strlen(buf); k++) {
             result[l + k] = buf[k];
          }
+         //add delimeter and end of the string
          result[l + k] = COMMA;
          result[l + k + 1] = '\0';
       }
+      //replace comma delimeter with semicolon delimeter where it is required
       result[strlen(result) - 1] = SEMICOLON;
    }
    result[strlen(result) - 1] = '\0';
 
+   //free memory
    free(buf);
 
    return result;
 };/*}}}*/
 
 
+/*
+ * mutliply 2 matrixes and output result matrix
+ */
 struct matrix multMatrix(struct matrix a, struct matrix b) {/*{{{*/
    if (*a.c != *b.r) {
       //error
@@ -124,6 +156,7 @@ struct matrix multMatrix(struct matrix a, struct matrix b) {/*{{{*/
    int i, j, k;
    int rows = *a.r, cols = *b.c;
 
+   //create and assign matrix struct
    struct matrix result = {
       .r = (int *)malloc( sizeof(int) ),
       .c = (int *)malloc( sizeof(int) ),
@@ -135,6 +168,7 @@ struct matrix multMatrix(struct matrix a, struct matrix b) {/*{{{*/
       result.m[i] = (int *)malloc( cols * sizeof(int) );
    }
 
+   //multiply matrixes
    for (i = 0; i < *a.r; i++) {
       for (j = 0; j < *b.c; j++) {
          result.m[i][j] = 0;
@@ -147,6 +181,7 @@ struct matrix multMatrix(struct matrix a, struct matrix b) {/*{{{*/
    return result;
 };/*}}}*/
 
+//testing current module
 /*
 int main(int argc, char *argv[]) {
    int i, j;
