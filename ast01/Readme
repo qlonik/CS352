@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Run make file
+make all
+./matrix_pipe
+make clean
