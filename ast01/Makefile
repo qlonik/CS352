@@ -41,6 +41,7 @@ clean :
 $(M) : $(M_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
+# Create vector
 $(V) : $(V_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
