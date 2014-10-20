@@ -164,7 +164,7 @@ int main() {
 
             //copy read data from buf
             m1_S = malloc(strlen(buf));
-            m1_S = buf;
+            strcpy(m1_S, buf);
 
             //restart alarm
             alarm(MAX_DELAY);
@@ -177,7 +177,7 @@ int main() {
 
             //copy read data from buf
             m2_S = malloc(strlen(buf));
-            m2_S = buf;
+            strcpy(m2_S, buf);
 
             //parse inputted matrixes and multiply them
             struct matrix m1 = parseMatrix(m1_S),
