@@ -2,5 +2,9 @@
 
 # Run make file
 make all
+
 ./matrix_pipe
+
+./vector_sock
+
 make clean

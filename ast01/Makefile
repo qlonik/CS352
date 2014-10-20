@@ -13,22 +13,35 @@ M_OBJ_N = \
 	  matrixOps.o
 M_OBJS = $(addprefix $(OBJ_DIR)/,$(M_OBJ_N))
 
+# second bin
+V = vector_sock
+V_TMP_FILES = mSock
+V_OBJ_N = \
+	  vector_sock.o \
+	  vectorOps.o
+V_OBJS = $(addprefix $(OBJ_DIR)/,$(V_OBJ_N))
+
 CC = gcc
 CFLAGS = -g -I$(SRC_DIR)
 
 # Create all tasks including matrix
-all : ${M}
+all : ${M} ${V}
 	@echo All done
 
 # Clean all
 clean :
 	@echo "Cleaning ${M}"
 	@rm -f ${M} ${M_TMP_FILES}
+	@echo "Cleaning ${V}"
+	@rm -f ${V} ${V_TMP_FILES}
 	@rm -rf $(OBJ_DIR)
 	@echo Clean done
 
 # Create matrix
 ${M} : $(M_OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+${V} : ${V_OBJS}
 	$(CC) $(CFLAGS) -o $@ $^
 
 # Create obj_dir folder
@@ -41,4 +54,5 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c | $(OBJ_DIR)
 
 # Set up requirements
 $(OBJ_DIR)/matrix_pipe.o : $(SRC_DIR)/matrixOps.h
+$(OBJ_DIR)/vector_sock.o : $(SRC_DIR)/vectorOps.h
 
