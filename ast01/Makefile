@@ -25,23 +25,23 @@ CC = gcc
 CFLAGS = -g -I$(SRC_DIR)
 
 # Create all tasks including matrix
-all : ${M} ${V}
+all : $(M) $(V)
 	@echo All done
 
 # Clean all
 clean :
-	@echo "Cleaning ${M}"
-	@rm -f ${M} ${M_TMP_FILES}
-	@echo "Cleaning ${V}"
-	@rm -f ${V} ${V_TMP_FILES}
+	@echo "Cleaning $(M)"
+	@rm -f $(M) $(M_TMP_FILES)
+	@echo "Cleaning $(V)"
+	@rm -f $(V) $(V_TMP_FILES)
 	@rm -rf $(OBJ_DIR)
 	@echo Clean done
 
 # Create matrix
-${M} : $(M_OBJS)
+$(M) : $(M_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-${V} : ${V_OBJS}
+$(V) : $(V_OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # Create obj_dir folder
