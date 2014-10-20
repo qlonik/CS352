@@ -47,8 +47,7 @@ void printMessage(char msg[]) {
 int readNumber(char msg[]) {
    printMessage(msg);
 
-   int * digit = NULL;
-   digit = malloc(0);
+   int * digit = (int *) malloc( sizeof(int) );
    scanf("%d", digit);
    return * digit;
 };
