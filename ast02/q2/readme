@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# This program solves sudoku
+# format: ./sudoku <filename>
+
+# On vm for some reason it finds one more fantom puzzle
+# This just should be ignored
+
+# ./sudoku - multi threaded solver
+# ./sudoku_st - single threaded solver
+# ./sudoku_debug - multi threaded with debug information
+# ./sudoku_st_debug - single threaded with debug information
+
+make
+
+./sudoku "test-cases/4x4_1"
+./sudoku "test-cases/9x9_1"
+./sudoku "test-cases/16x16_1"
+./sudoku "test-cases/25x25_1"
+
+make clean
+

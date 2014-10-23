@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# This program multiplies matrixes
+# For some reason for the first time it does not work
+# Possibly because I need to initialize shared memory before using it
+
+make 
+
+./matrix_shm
+./matrix_shm
+
+make clean
