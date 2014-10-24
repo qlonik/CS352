@@ -340,15 +340,8 @@ int solveSudoku(Sudoku * s, int r, int c) {/*{{{*/
             debugPrintSudoku(*s);
          }
 
-
-         if (c == s->size) {
-            if (solveSudoku(s, r + 1, 0)) {
-               return 1;
-            }
-         } else {
-            if (solveSudoku(s, r, c + 1)) {
-               return 1;
-            }
+         if (solveSudoku(s, r, c + 1)) {
+            return 1;
          }
       }
    }
