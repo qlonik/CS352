@@ -301,7 +301,7 @@ void debugPrintSudoku(Sudoku s) {/*{{{*/
    }
 
    strcat(buf, delim);
-   printf(buf);
+   printf("%s", buf);
 
    free(buf);
    free(d);
