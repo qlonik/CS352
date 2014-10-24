@@ -10,19 +10,19 @@
 #include <pthread.h>
 
 #ifndef ST
-	#define ST 0
+#define ST 0
 #endif
 
 #ifndef DEBUG
-	#define DEBUG 0
+#define DEBUG 0
 #endif
 
 #ifndef SOLVER_DEBUG
-	#define SOLVER_DEBUG 0
+#define SOLVER_DEBUG 0
 #endif
 
 #ifndef PRINT_EACH_STEP
-	#define PRINT_EACH_STEP 0
+#define PRINT_EACH_STEP 0
 #endif
 
 #define MAX_BUF_LEN 1024
@@ -62,8 +62,8 @@ void * rowCheck_thread( void * param ) {/*{{{*/
    Sudoku * s;
    int i, v, r, c, max_r, max_c;
    thread_return * ret = malloc(sizeof(thread_return));
-
    thread_attr * attr = (thread_attr *) param;
+
    s = attr->s;
    r = attr->r;
    c = attr->c;
@@ -88,8 +88,8 @@ void * columnCheck_thread( void * param ) {/*{{{*/
    Sudoku * s;
    int i, v, r, c, max_r, max_c;
    thread_return * ret = malloc(sizeof(thread_return));
-
    thread_attr * attr = (thread_attr *) param;
+
    s = attr->s;
    r = attr->r;
    c = attr->c;
@@ -114,8 +114,8 @@ void * cellCheck_thread( void * param ) {/*{{{*/
    Sudoku * s;
    int i, j, v, r, c, sRow, sCol, max_cell;
    thread_return * ret = malloc(sizeof(thread_return));
-
    thread_attr * attr = (thread_attr *) param;
+
    s = attr->s;
    r = attr->r;
    c = attr->c;
@@ -285,17 +285,17 @@ void printSudoku(Sudoku s) {/*{{{*/
 void debugPrintSudoku(Sudoku s) {/*{{{*/
    int i, j, l;
    char * buf = malloc(MAX_BUF_LEN * sizeof(char)),
-		* d = malloc(MAX_BUF_LEN * sizeof(char)),
-		* delim = malloc(MAX_BUF_LEN * sizeof(char));
+        * d = malloc(MAX_BUF_LEN * sizeof(char)),
+        * delim = malloc(MAX_BUF_LEN * sizeof(char));
 
    strcpy(buf, "");
    strcpy(delim, "--------------------------\n");
 
    for (i = 0; i < s.size; i++) {
       for (j = 0; j < s.size; j++) {
-    	 sprintf(d, "%2d", s.puzzle[i][j]);
-    	 strcat(buf, d);
-    	 strcat(buf, " ");
+         sprintf(d, "%2d", s.puzzle[i][j]);
+         strcat(buf, d);
+         strcat(buf, " ");
       }
       strcat(buf, "\n");
    }
@@ -330,14 +330,14 @@ int solveSudoku(Sudoku * s, int r, int c) {/*{{{*/
          printf("-- dbg; r:%d:c:%d:P:%d:v:%d:\n", r, c, s->puzzle[r][c], v);
       }
       if (ST) {
-    	  valid = checkValid_sync(s, r, c, v);
+         valid = checkValid_sync(s, r, c, v);
       } else {
-    	  valid = checkValid(s, r, c, v);
+         valid = checkValid(s, r, c, v);
       }
       if (valid) {
          s->puzzle[r][c] = v;
          if (PRINT_EACH_STEP) {
-        	 debugPrintSudoku(*s);
+            debugPrintSudoku(*s);
          }
 
 
