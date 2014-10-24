@@ -283,7 +283,7 @@ void printSudoku(Sudoku s) {/*{{{*/
    }
 };/*}}}*/
 void debugPrintSudoku(Sudoku s) {/*{{{*/
-   int i, j, l;
+   int i, j;
    char * buf = malloc(MAX_BUF_LEN * sizeof(char)),
         * d = malloc(MAX_BUF_LEN * sizeof(char)),
         * delim = malloc(MAX_BUF_LEN * sizeof(char));
