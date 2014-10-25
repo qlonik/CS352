@@ -16,36 +16,31 @@ typedef struct Queue {
    struct Node * back;
 } queue;
 
-queue initQueue(queue q) {/*{{{*/
-   q.front = nil;
-   q.back = nil;
-   return q;
+void initQueue(queue * q) {/*{{{*/
+   q->front = nil;
+   q->back = nil;
 }/*}}}*/
-queue enqueue(queue q, int info) {/*{{{*/
+void enqueue(queue * q, int info) {/*{{{*/
    node * n = (node *) malloc(sizeof(node));
 
    n->link = nil;
    n->info = info;
 
-   if (q.front == nil) {
-      q.front = n;
+   if (q->front == nil) {
+      q->front = n;
    } else {
-      q.back->link = n;
+      q->back->link = n;
    }
-   q.back = n;
-
-   return q;
+   q->back = n;
 }/*}}}*/
-queue dequeue(queue q, int * rinfo) {/*{{{*/
-   node * n = q.front;
+void dequeue(queue * q, int * rinfo) {/*{{{*/
+   node * n = q->front;
 
-   if (q.front != nil) {
-      *rinfo = q.front->info;
-      q.front = q.front->link;
+   if (q->front != nil) {
+      *rinfo = q->front->info;
+      q->front = q->front->link;
       free(n);
    }
-
-   return q;
 }/*}}}*/
 
 void debugPrintQueue(queue q) {/*{{{*/
@@ -77,8 +72,8 @@ int main(int argc, char * argv[]) {
    }
 
    queue odd_pid, even_pid;
-   initQueue(odd_pid);
-   initQueue(even_pid);
+   initQueue(&odd_pid);
+   initQueue(&even_pid);
 
    for (i = 0; i < n; i++) {
    }
