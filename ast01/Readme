@@ -4,9 +4,12 @@
 make all
 
 ./matrix_pipe
+echo ""
 
 ./vector_sock
+echo ""
 
 ./forks 5
+echo ""
 
 make clean
