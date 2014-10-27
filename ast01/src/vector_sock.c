@@ -22,6 +22,10 @@
 #define MAX_DELAY 10
 #define DEBUG 0
 
+// child_one - process reading from standard input
+// child_two - process writing to standard output
+int child_one, child_two;
+
 void writeFD(char * s, int fd) {/*{{{*/
    write(fd, s, strlen(s) + 1);
 };/*}}}*/
@@ -65,13 +69,14 @@ void exitMatrix() {/*{{{*/
    if (DEBUG) {
       printf("-p- Exit by timeout\n");
    }
+   printf("\nExiting\n");
+   kill(child_one, SIGINT);
+   kill(child_two, SIGINT);
    exit(EXIT_SUCCESS);
 }/*}}}*/
 
 int main() {
-   // child_one - process reading from standard input
-   // child_two - process writing to standard output
-   int child_one, child_two, bufLen;
+   int bufLen;
 
    char * sockName = "mSock";
    char * buf = (char *) malloc(sizeof(char) * MAX_BUF_LEN);

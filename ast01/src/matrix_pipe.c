@@ -16,6 +16,10 @@
 #define MAX_BUF_LEN 1024
 #define MAX_DELAY 10
 
+// child_one - process reading from standard input
+// child_two - process reading from standard output
+int child_one, child_two, bufLen;
+
 //write to the pipe
 //taken from provided programs
 void writePipe(char * s, int pipe) {
@@ -54,14 +58,14 @@ int readNumber(char msg[]) {
 
 //exit program with success status
 void exitMatrix() {
+   printf("\nExiting\n");
+   kill(child_one, SIGINT);
+   kill(child_two, SIGINT);
    exit(EXIT_SUCCESS);
 }
 
 int main() {
    int i, j;
-   // child_one - process reading from standard input
-   // child_two - process reading from standard output
-   int child_one, child_two, bufLen;
 
    char * pipeName = "mPipe";
    char * buf;
